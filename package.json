@@ -1,14 +1,13 @@
 {
-  "name": "sentencer",
-  "version": "0.2.1",
-  "description": "Sentencer is a string templating engine for madlibs-style sentence generating.",
+  "name": "sentencer-lite",
+  "version": "0.3.0",
+  "description": "Sentencer Lite is a string templating engine for madlibs-style sentence generating forked from Sentencer.",
   "scripts": {
     "start": "node index.js",
     "test": "gulp test"
   },
   "dependencies": {
     "articles": "~0.2.1",
-    "lodash": "^4.17.11",
     "natural": "~0.1.28",
     "randy": "~1.5.1"
   },
@@ -24,6 +23,6 @@
     "madlibs",
     "metaphorpsum"
   ],
-  "author": "Kyle Stetz",
+  "author": "Mark Tucker",
   "license": "MIT"
 }

@@ -1,47 +1,35 @@
-# Sentencer
+# Sentencer Lite
 
-[![Build Status](https://travis-ci.org/kylestetz/Sentencer.svg?branch=master)](https://travis-ci.org/kylestetz/Sentencer)
+`Sentencer Lite` is a Javascript module for madlibs-style sentence templating. It has been forked from [Sentencer](https://github.com/kylestetz/Sentencer), which is a great module.
 
-`sentencer` is a node.js module for madlibs-style sentence templating. It is a simple templating engine that accepts strings with actions embedded in them:
+For those who create custom lists that are more specific than nouns and adjectives and who don't need the word files (totaling 78.3 KB), consider this module.
+
+It is a simple templating engine that accepts strings with actions embedded in them:
 
 ```javascript
-"This is {{ an_adjective }} sentence."
+"This is {{ an_animal }}."
 ```
 
 Where each action returns a random string selected from a list:
 
 ```javascript
-"This is a bankrupt sentence."
+"This is a dog."
 ```
 
-Think of it as madlibs for Javascript. Want to roll your own lorem ipsum generator? `Sentencer` allows you to write the structure of your sentences and plug in any kind of vocabulary you choose.
-
-`Sentencer` was written for and powers [Metaphorpsum](http://metaphorpsum.com). The noun and adjective lists come from a relatively small curated selection of Ashley Bovan's excellent [Word Lists for Writers](http://www.ashley-bovan.co.uk/words/partsofspeech.html).
+Think of it as madlibs for Javascript. Want to roll your own lorem ipsum generator? `Sentencer Lite` allows you to write the structure of your sentences and plug in any kind of vocabulary you choose.
 
 ### How
 
-`npm install sentencer --save`
-
-```javascript
-var Sentencer = require('sentencer');
-
-Sentencer.make("This sentence has {{ a_noun }} and {{ an_adjective }} {{ noun }} in it.");
-// returns something like "This sentence has a bat and a finless cinema in it."
-```
+`npm install sentencer-lite --save`
 
 Here are all of the options, described in detail below.
 
 ```javascript
-var Sentencer = require('sentencer');
+var SentencerLite = require('sentencer-lite');
 
-Sentencer.configure({
-  // the list of nouns to use. Sentencer provides its own if you don't have one!
-  nounList: [],
+SentencerLite.configure({
 
-  // the list of adjectives to use. Again, Sentencer comes with one!
-  adjectiveList: [],
-
-  // additional lists that generate actions for the template engine to use.
+  // lists that generate actions for the template engine to use.
   customLists: [
     {
       // add action for animal
@@ -75,67 +63,23 @@ Sentencer.configure({
 
 ### Actions
 
-`Sentencer` works by recognizing "actions" within `{{ double_brackets }}`. It replaces these actions with strings. The default actions are `{{ noun }}`, `{{ a_noun }}`, `{{ nouns }}`, `{{ adjective }}`, and `{{ an_adjective }}`, but you can extend `Sentencer` to include any kind of actions you need!
+`Sentencer Lite` works by recognizing "actions" within `{{ double_brackets }}`. It replaces these actions with strings. There are no default actions, but you can extend `Sentencer Lite` to include any custom list or action you need!
 
-The default actions will continue to work if you pass in new a `nounList` and/or `adjectiveList` using `Sentencer.configure`.
+NOTE: If you want default actions such as `{{ noun }}`, `{{ a_noun }}`, `{{ nouns }}`, `{{ adjective }}`, and `{{ an_adjective }}` then [Sentencer](https://github.com/kylestetz/Sentencer) is a better option for you.
 
-`Sentencer`'s actions are written semantically so that your sentence template still reads as a sentence. While this was simply a design decision, it does make templates easier to read and you are encouraged to follow this format if you create custom actions.
 
-#### `"{{ noun }}"`
-
-Returns a random noun from the noun list.
-
-```javascript
-var noun = Sentencer.make("{{ noun }}")
-// "actor", "knight", "orchid", "pizza", etc.
-```
-
-#### `"{{ a_noun }}"`
-
-Returns a random noun from the noun list with "a" or "an" in front of it.
-
-```javascript
-var nounWithArticle = Sentencer.make("{{ a_noun }}")
-// "an actor", "a knight", "an orchid", "a pizza", etc.
-```
-
-#### `"{{ nouns }}"`
-
-Returns the pluralized form of a random noun from the noun list. It's not 100% perfect, but it's probably 97% perfect.
-
-```javascript
-var pluralNoun = Sentencer.make("{{ nouns }}")
-// "actors", "knights", "orchids", "pizzas", etc.
-```
-
-#### `"{{ adjective }}"`
-
-Returns a random adjective from the adjective list.
-
-```javascript
-var adjective = Sentencer.make("{{ adjective }}")
-// "blending", "earthy", "rugged", "untamed", etc.
-```
-
-#### `"{{ an_adjective }}"`
-
-Returns a random adjective from the adjective list with "a" or "an" in front of it.
-
-```javascript
-var adjective = Sentencer.make("{{ an_adjective }}")
-// "a blending", "an earthy", "a rugged", "an untamed", etc.
-```
+The actions in `Sentencer Lite` are written semantically so that your sentence template still reads as a sentence. While this was simply a design decision, it does make templates easier to read and you are encouraged to follow this format if you create custom actions.
 
 ### Add your own actions
 
-When configuring `Sentencer` you can provide your own "actions", which are just functions that return something. The name of the function that you pass into `actions` is how you will reference it within a sentence template.
+When configuring `Sentencer Lite` you can provide your own "actions", which are just functions that return something. The name of the function that you pass into `actions` is how you will reference it within a sentence template.
 
 Here's an example of an action that returns a random number from 1 to 10.
 
 ```javascript
-var Sentencer = require('sentencer');
+var SentencerLite = require('sentencer-lite');
 
-Sentencer.configure({
+SentencerLite.configure({
   actions: {
     number: function() {
       return Math.floor( Math.random() * 10 ) + 1;
@@ -143,7 +87,7 @@ Sentencer.configure({
   }
 });
 
-console.log( Sentencer.make("I can count to {{ number }}.")
+console.log( SentencerLite.make("I can count to {{ number }}.")
 // "I can count to 5."
 ```
 
@@ -152,9 +96,9 @@ console.log( Sentencer.make("I can count to {{ number }}.")
 You can pass arguments into your actions. We can use this to make a smarter version of the random number generator above...
 
 ```javascript
-var Sentencer = require('sentencer');
+var SentencerLite = require('sentencer-lite');
 
-Sentencer.configure({
+SentencerLite.configure({
   actions: {
     number: function(min, max) {
       return Math.floor( Math.random() * (max - min) ) + min;
@@ -162,19 +106,19 @@ Sentencer.configure({
   }
 });
 
-console.log( Sentencer.make("I can count to {{ number(8, 10) }}.")
+console.log( SentencerLite.make("I can count to {{ number(8, 10) }}.")
 // "I can count to 8."
 ```
 
 ### Add your own custom lists
-When configuring `Sentencer` you can provide your own custom lists, which are converted to "actions". The `key` sets the name of the action and the `values` the list of values where one is selected when the action is called. You can also specify a name for the `articlize` and/or `pluralize` actions. These names are referenced within a sentence template.
+When configuring `Sentencer Lite` you can provide your own custom lists, which are converted to "actions". The `key` sets the name of the action and the `values` the list of values where one is selected when the action is called. You can also specify a name for the `articlize` and/or `pluralize` actions. These names are referenced within a sentence template.
 
 Here is an example of an animal list that includes options to prefix with an article or to make it plural.
 
 ```javascript
-var Sentencer = require('sentencer');
+var SentencerLite = require('sentencer-lite');
 
-Sentencer.configure({
+SentencerLite.configure({
   customLists: [
     {
         key: "animal",
@@ -185,14 +129,17 @@ Sentencer.configure({
   ],
 });
 
-console.log( Sentencer.make("I saw {{ an_animal }}, 1 {{ animal }}, and 2 {{ animals }}.")
+console.log( SentencerLite.make("I saw {{ an_animal }}, 1 {{ animal }}, and 2 {{ animals }}.")
 // "I saw an elephant, 1 dog, and 2 cats."
 ```
 
 ### Where are the verbs?
 
-Verb pluralization, singularization, and tense modification are difficult computer science problems. `Sentencer` doesn't aim to solve those problems, however _present tense_ verb pluralization/singularization is an experimental feature of [`natural`](https://github.com/NaturalNode/natural) and could be integrated if necessary.
+Verb pluralization, singularization, and tense modification are difficult computer science problems. `Sentencer Lite` doesn't aim to solve those problems, however _present tense_ verb pluralization/singularization is an experimental feature of [`natural`](https://github.com/NaturalNode/natural) and could be integrated if necessary.
 
 -----------
 
-`Sentencer` was created and is maintained by [Kyle Stetz](https://github.com/kylestetz). The original prototype came out of [Metaphorpsum](https://github.com/kylestetz/metaphorpsum) but has been rewritten from the ground up.
+`Sentencer Lite` was forked from [Sentencer](https://github.com/kylestetz/Sentencer) and is maintained by [Mark Tucker](https://github.com/rmtuckerphx).
+
+[Sentencer](https://github.com/kylestetz/Sentencer) was created and is maintained by [Kyle Stetz](https://github.com/kylestetz). The original prototype came out of [Metaphorpsum](https://github.com/kylestetz/metaphorpsum) but has been rewritten from the ground up.
+
